@@ -39,9 +39,16 @@ def custom_score(game, player):
 
     # TODO: finish this function!
 
-    
+    if game.is_loser(player):
+        return float("-inf")
 
-    raise NotImplementedError
+    if game.is_winner(player):
+        return float("inf")
+
+    # start with the basic scoring idea.
+    own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
+    return float(own_moves - 2 * opp_moves)
 
 
 class CustomPlayer:
@@ -268,5 +275,31 @@ class CustomPlayer:
         if self.time_left() < self.TIMER_THRESHOLD:
             raise Timeout()
 
-        # TODO: finish this function!
-        raise NotImplementedError
+        best_value = float("-inf") if maximizing_player else float("inf")
+        best_move = (-1, -1)
+
+        if depth == 0:
+            return (self.score(game, self), best_move)
+
+        for move in game.get_legal_moves():
+            # Dont run out of time.
+            if self.time_left() < self.TIMER_THRESHOLD:
+                raise Timeout()
+
+            (value, new_move) = self.alphabeta(game.forecast_move(move), depth - 1, alpha, beta,
+                                               maximizing_player=not (maximizing_player))
+
+            if (value < best_value, value > best_value)[maximizing_player]:
+                best_value = value
+                best_move = move
+            # Prune the tree if the values are outside of the thresholds (for beta, MAX player)
+
+            if (value <= alpha, value >= beta)[maximizing_player]:
+                return best_value, best_move
+
+            if maximizing_player:
+                alpha = max(alpha, value)
+            else:
+                beta = min(beta, value)
+
+        return best_value, best_move
