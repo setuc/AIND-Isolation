@@ -44,10 +44,29 @@ def custom_score(game, player):
         return float("inf")
 
     # start with the basic scoring idea.
+    # own_moves = len(game.get_legal_moves(player))
+    # opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
+    # free_cells = max(1.0, float(len(game.get_blank_spaces())))
+    # return float((own_moves - 10 * opp_moves) * free_cells)
+
+    # 2nd Approach in looking forward 1 move to see how many moves remain after that.
+    # this approach did not result in any decent score. Hence discontinue the research
+    # score = 0
+    # own_moves = game.get_legal_moves(player)
+    # for move in own_moves:
+    #     score -= len((game.forecast_move(move)).get_legal_moves(game.get_opponent(player)))
+    #
+    # opp_moves = game.get_legal_moves(game.get_opponent(player))
+    # for move in opp_moves:
+    #     score += len((game.forecast_move(move)).get_legal_moves(player))
+    #
+    # return score
+
+    # start with the basic scoring idea. dynamic scoring logig
     own_moves = len(game.get_legal_moves(player))
     opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
-    free_cells = max(1.0, float(len(game.get_blank_spaces())))
-    return float((own_moves - 10 * opp_moves) * free_cells)
+    num_moves = int(game.move_count / 15)
+    return float(own_moves - num_moves * opp_moves)
 
 
 class CustomPlayer:
