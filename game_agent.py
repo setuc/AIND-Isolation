@@ -7,7 +7,7 @@ You must test your agent's strength against a set of agents with known
 relative strength using tournament.py and include the results in your report.
 """
 import random
-
+import math
 
 class Timeout(Exception):
     """Subclass base exception for code clarity."""
@@ -38,6 +38,9 @@ def custom_score(game, player):
     """
 
     # TODO: finish this function!
+
+    
+
     raise NotImplementedError
 
 
@@ -117,26 +120,49 @@ class CustomPlayer:
         """
 
         self.time_left = time_left
-
-        # TODO: finish this function!
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise Timeout()
 
         # Perform any required initializations, including selecting an initial
         # move from the game board (i.e., an opening book), or returning
         # immediately if there are no legal moves
+
+        if not legal_moves:
+            return (-1, -1)
+
+        if game.move_count == 1:
+            return math.floor(game.height / 2), math.floor(game.width / 2)
+
+        best_move = legal_moves[random.randint(0, len(legal_moves) - 1)]
+        best_score = float("-inf")
 
         try:
             # The search method call (alpha beta or minimax) should happen in
             # here in order to avoid timeout. The try/except block will
             # automatically catch the exception raised by the search method
             # when the timer gets close to expiring
-            pass
+
+
+            search_method = self.minimax if self.method == "minimax" else self.alphabeta
+            if self.iterative == True:
+                self.search_depth = 1
+                while game.get_legal_moves():
+                    score, move = search_method(game, self.search_depth)
+                    self.search_depth += 1
+                    if score > best_score:
+                        best_score = score
+                        best_move = move
+            else:
+                score, move = search_method(game, self.search_depth)
+
+
 
         except Timeout:
             # Handle any actions required at timeout, if necessary
-            pass
+            return best_move
 
         # Return the best move from the last completed search iteration
-        raise NotImplementedError
+        return best_move
 
     def minimax(self, game, depth, maximizing_player=True):
         """Implement the minimax search algorithm as described in the lectures.
@@ -172,7 +198,6 @@ class CustomPlayer:
         if self.time_left() < self.TIMER_THRESHOLD:
             raise Timeout()
 
-        # TODO: Add timeouts
         # TODO: Add pruning as part of the search. Might need a separate function for this.
 
         # Define some default values that we will use.
@@ -194,7 +219,8 @@ class CustomPlayer:
 
             (value, new_move) = self.minimax(game.forecast_move(move), depth - 1,
                                              maximizing_player=not (maximizing_player))
-            if ((maximizing_player and (value > best_value)) or (not (maximizing_player) and (value < best_value))):
+
+            if (value < best_value, value > best_value)[maximizing_player]:
                 best_value = value
                 best_move = move
 
