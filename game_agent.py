@@ -37,8 +37,6 @@ def custom_score(game, player):
         The heuristic value of the current game state to the specified player.
     """
 
-    # TODO: finish this function!
-
     if game.is_loser(player):
         return float("-inf")
 
@@ -48,7 +46,8 @@ def custom_score(game, player):
     # start with the basic scoring idea.
     own_moves = len(game.get_legal_moves(player))
     opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
-    return float(own_moves - 2 * opp_moves)
+    free_cells = max(1.0, float(len(game.get_blank_spaces())))
+    return float((own_moves - 10 * opp_moves) * free_cells)
 
 
 class CustomPlayer:
