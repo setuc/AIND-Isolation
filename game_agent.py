@@ -172,8 +172,34 @@ class CustomPlayer:
         if self.time_left() < self.TIMER_THRESHOLD:
             raise Timeout()
 
-        # TODO: finish this function!
-        raise NotImplementedError
+        # TODO: Add timeouts
+        # TODO: Add pruning as part of the search. Might need a separate function for this.
+
+        # Define some default values that we will use.
+        # For a MAX player (TRUE) starts from minus infinity &
+        # For a MIN Player (FALSE) starts from plus infinity.
+
+        best_value = float("-inf") if maximizing_player else float("inf")
+        best_move = (-1, -1)
+
+        # Check if depth is 0, if so return the current value of the node,
+        # i.e. dont search further and go back up the tree
+        if depth == 0:
+            return (self.score(game, self), best_move)
+
+        for move in game.get_legal_moves():
+            # Dont run out of time.
+            if self.time_left() < self.TIMER_THRESHOLD:
+                raise Timeout()
+
+            (value, new_move) = self.minimax(game.forecast_move(move), depth - 1,
+                                             maximizing_player=not (maximizing_player))
+            if ((maximizing_player and (value > best_value)) or (not (maximizing_player) and (value < best_value))):
+                best_value = value
+                best_move = move
+
+        return best_value, best_move
+
 
     def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf"), maximizing_player=True):
         """Implement minimax search with alpha-beta pruning as described in the
