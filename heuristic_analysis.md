@@ -90,8 +90,8 @@ The division by the number of free cells actually decreases the performance of t
 | Baseline    | 95.00%                                                         | 93.93%                                                         | 95.36%                                                         |
 
 This was the only logic that resulted in the best score among the analysis. A further fine turning using any black box 
-optimization techniques, like bayesian optimization will result in an optimum value. I will continue to find a simple
-logic and improved heurisitics to determine the final number. 
+optimization techniques, like bayesian optimization or global optimizer like simulated annealing/GAs/PSO will result in 
+an optimum value. I will continue to find a decent logic and improved heurisitics to determine the final number. 
 
 ### Multiplication by the number of faction of the number of moves(N)
 
@@ -112,3 +112,9 @@ logic and improved heurisitics to determine the final number.
 In this approach, I took a sum of all legal moves from the current moves that are available. The similar difference of 
 the player vs oppenent moves followed in the logic. The results were a order of magnitude different than the baseline
 score and hence did not purse further. See [16](https://gist.github.com/setuc/3c84e8fc6a2b43a25a563c4fe9e80c75) [17](https://gist.github.com/setuc/f90df3e0f2e5e536ea4dcd5f08568ad2) [18](https://gist.github.com/setuc/24a1c4c2d61576a533d94cfb9814b5b8)
+
+
+## Potential Improvements for the AI tournament
+1. I have worked with Monte Carlo Tree Search (MCTS) before, so I will try and implement it to see if that works any better
+2. Create an opening book, by letting the plays go on for a longer duration, though the current search strategy will need
+to be improved. 
