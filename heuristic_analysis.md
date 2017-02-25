@@ -117,4 +117,4 @@ score and hence did not purse further. See [16](https://gist.github.com/setuc/3c
 ## Potential Improvements for the AI tournament
 1. I have worked with Monte Carlo Tree Search (MCTS) before, so I will try and implement it to see if that works any better
 2. Create an opening book, by letting the plays go on for a longer duration, though the current search strategy will need
-to be improved. 
+to be improved. Example that we can use is move ordering, hash tables

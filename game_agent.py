@@ -48,7 +48,8 @@ def custom_score(game, player):
     opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
     # free_cells = max(1.0, float(len(game.get_blank_spaces())))
     # return float((own_moves - 10 * opp_moves) * free_cells)
-    return float(own_moves - 3.7 * opp_moves)
+    # return float((own_moves - 10 * opp_moves) / free_cells)
+    return float(own_moves - 5.0 * opp_moves)
 
     # 2nd Approach in looking forward 1 move to see how many moves remain after that.
     # this approach did not result in any decent score. Hence discontinue the research
@@ -100,7 +101,7 @@ class CustomPlayer:
         timer expires.
     """
 
-    def __init__(self, search_depth=3, score_fn=custom_score,
+    def __init__(self, search_depth=10, score_fn=custom_score,
                  iterative=True, method='minimax', timeout=10.):
         self.search_depth = search_depth
         self.iterative = iterative
