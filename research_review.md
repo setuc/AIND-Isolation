@@ -4,7 +4,7 @@ The desire to build machines capable of beating the best humans at chess, remark
 advances have paved the way to Deep Blue’s narrow victory over Garry Kasparov in 1997. This paper describes the factors 
 that lead to the success.
  
- ##Hardware
+##Hardware
 Deep blue is a 30-node special purpose machine equipped with 480 special purpose chess chips, which are capable of searching 
 anywhere between 100 to 200  million chess positions a second. This when compared to Mike Valvo and grandmaster Gary Kasparov
 searched deeper than Deep Thought, the original chess machine.  Each chip has three functions:
@@ -39,4 +39,7 @@ was used for training as well as during the play.
 The main AI lesson  learned from this event is that in some domains human creativity, intuition, and reasoning ability 
 can be compensated for or even be surpassed by brute-force search requiring only simple evaluation functions. Unfortunately, 
 this insight does not help much when it comes to solving much harder decision problems than chess for which full-width 
-search is infeasible or simple heuristics do not work. The IBM team had to make decisions for which there was no prior. 
+search is infeasible or simple heuristics do not work [1]. The IBM team had to make decisions for which there was no prior. 
+
+###Additional References
+[1] Michael Buro, Improving heuristic mini-max search by supervised learning, Artificial Intelligence, Volume 134, Issue 1, 2002, Pages 85-99, ISSN 0004-3702, http://dx.doi.org/10.1016/S0004-3702(01)00093-5.
